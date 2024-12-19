@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de Categoría</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #eef7e6;
+            color: #2a7a2a;
+            overflow-x: hidden;
+        }
+
+        /* Fondo con desenfoque */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('fondoMilk.png'); /* Imagen de fondo */
+            background-size: cover;
+            background-position: center center;
+            filter: blur(2px); /* Desenfoque del fondo */
+            z-index: -1; /* Colocar detrás del contenido */
+        }
+
+        header {
+            background-color: #69b063;
+            color: white;
+            text-align: center;
+            padding: 15px 20px; /* Reducir padding */
+            font-size: 1.8rem; /* Reducir tamaño de fuente */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px; /* Reducir el espaciado de letras */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 50px; /* Bordes redondeados */
+            max-width: 800px;
+            margin: 20px auto; /* Añadir margen superior */
+        }
+
+        #sizes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .size {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 50px; /* Bordes redondeados */
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .size:hover {
+            transform: translateY(-5px);
+            background-color: #dff4df; /* Color al pasar el cursor */
+        }
+
+        .size img {
+            width: 150px; /* Tamaño uniforme */
+            height: 150px;
+            border-radius: 25px; /* Bordes redondeados */
+            margin-bottom: 10px;
+            object-fit: contain; /* Ajuste proporcional */
+            background-color: transparent; /* Eliminar fondo gris */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+        }
+
+        .size-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2a7a2a;
+        }
+    </style>
+</head>
+<body>
+    <!-- Capa de fondo difuminado -->
+    <div class="background"></div>
+
+    <header id="category-header">
+        <!-- Se actualizará con el nombre de la marca -->
+    </header>
+
+    <div id="sizes-container">
+        <!-- Aquí se mostrarán dinámicamente los tamaños -->
+    </div>
+
+    <script>
+        // Base de datos de tamaños por marca, ordenados en base al tamaño
+        const sizesData = {
+            Asturiana: [
+                { size: "2.2 Litros", img: "asturianaEntera2200.png" }, // Imagen cargada localmente
+                { size: "1.5 Litros", img: "https://static.carrefour.es/hd_510x_/img_pim_food/002882_00_1.jpg" },
+                { size: "1 Litro", img: "asturianaEntera1000.png" },
+                { size: "0.5 Litros", img: "asturianaEntera500.png" }
+            ]
+        };
+
+        // Obtener la marca seleccionada desde la URL
+        const params = new URLSearchParams(window.location.search);
+        const brand = params.get('brand') || 'Desconocida';
+
+        // Actualizar el encabezado con la marca seleccionada
+        document.getElementById('category-header').textContent = `Categoría: ${brand}`;
+
+        // Mostrar los tamaños correspondientes
+        const sizesContainer = document.getElementById('sizes-container');
+        const sizes = sizesData[brand] || [];
+        sizes.forEach(size => {
+            // Crear un div para cada tamaño
+            const sizeDiv = document.createElement('div');
+            sizeDiv.classList.add('size');
+
+            // Crear y añadir la imagen
+            const img = document.createElement('img');
+            img.src = size.img;
+            img.alt = size.size;
+            sizeDiv.appendChild(img);
+
+            // Crear y añadir el título del tamaño
+            const title = document.createElement('div');
+            title.classList.add('size-title');
+            title.textContent = size.size;
+            sizeDiv.appendChild(title);
+
+            sizesContainer.appendChild(sizeDiv);
+        });
+    </script>
+</body>
+</html>
